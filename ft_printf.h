@@ -31,6 +31,7 @@ typedef	struct				s_arg
 	int						t;
 	int						L;
 	int						re;
+	int						prs;
 	int						accuracy;
 	int						width;
 	int						minus;
@@ -85,7 +86,7 @@ typedef	struct				s_arg
 */
 
 int						ft_printf(const char *format, ...);
-int						ft_printf_take_args(char const *format, va_list args, t_arg *s);
+void					ft_printf_take_args(char const *format, va_list args, t_arg *s);
 void					ft_printf_read_format(char const *f, va_list args, t_arg *s);
 void					ft_printf_write_data(char const *f, t_arg *s);
 int						ft_printf_flags(char f, t_arg *s);
@@ -99,9 +100,10 @@ void					ft_printf_del_arg(t_arg *del);
 int						how_m_words(char const *str);
 int						how_b(char const *str, int i);
 char					**ft_printf_split_format(char const *f, int i, int args, int a);
-void					ft_printf_percent(char const *f, t_arg *s);
+void					ft_printf_prs(char const f, t_arg *s);
 void					ft_printf_data_s(t_arg *s);
 void					ft_printf_data_width(t_arg *s, char t);
+void					ft_printf_data_width_c(t_arg *s, char t);
 void					ft_printf_data_print(t_arg *s);
 void					ft_printf_data_s_wchar_t(t_arg *s);
 char					*ft_printf_data_wchar_read(t_arg *s);
@@ -114,12 +116,17 @@ void					ft_printf_data_d_ps(t_arg *s);
 void					ft_printf_data_u(t_arg *s);
 void					ft_printf_data_o(t_arg *s);
 void					ft_printf_data_x(t_arg *s);
-char					*ft_printf_itoa(t_arg *s, int base);
+char					*ft_printf_itoa(t_arg *s, int base, int minf);
+char					*ft_printf_itoa_unsigned(t_arg *s, int base, int minf);
+t_arg					*ft_printf_flags_unsigned(t_arg *s);
+unsigned long long int	ft_printf_itoa_unsignedlen(t_arg *s, int b);
+void					ft_printf_data_0x(t_arg *s);
+t_arg					*ft_printf_flags_signed(t_arg *s);
 char					*ft_printf_itoa_make(t_arg *s, char *r, int minf, int base);
 char					*ft_printf_itoa_rev(char *src, char *dst, t_arg *s, int min);
-unsigned long long int	ft_printf_itoa_len(t_arg *s);
+unsigned long long int	ft_printf_itoa_len(t_arg *s, int b);
 char					ft_printf_itoa_hash(int base, t_arg *s);
 void					ft_printf_data_p(t_arg *s);
-//void			ft_printf_data_n(f, s);
+int						ft_printf_chek_data(char f);
 
 #endif

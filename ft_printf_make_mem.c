@@ -33,6 +33,7 @@ void	ft_printf_clear_t_arg(t_arg *x)
 	x->z = 0;
 	x->t = 0;
 	x->L = 0;
+	x->prs = 0;
 	x->accuracy = -1;
 	x->width = 0;
 	x->minus = 0;
@@ -40,13 +41,23 @@ void	ft_printf_clear_t_arg(t_arg *x)
 	x->spase = 0;
 	x->hash = 0;
 	x->zero = 0;
+	x->str = 0;
+	x->buf = 0;
 	x->l1 = 0;
 	x->l2 = 0;
 	x->l3 = 0;
 	x->l4 = 0;
 	x->l5 = 0;
 	x->data = 0;
-	return ;
+	x->j1 = 0;
+	x->j2 = 0;
+	x->j3 = 0;
+	x->j4 = 0;
+	x->j5 = 0;
+	x->data = 0;
+	x->wchar = 0;
+	x->tmp1 = 0;
+	x->tmp2 = 0;
 }
 
 void	ft_printf_del_arg(t_arg *del)
@@ -56,7 +67,6 @@ void	ft_printf_del_arg(t_arg *del)
 	l = 0;
 	if (del != NULL)
 	{
-		ft_bzero(del, sizeof(t_arg));
 		while (del->arg[l])
 			free(del->arg[l++]);
 		free(del->arg);

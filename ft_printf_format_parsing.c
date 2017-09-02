@@ -94,12 +94,20 @@ int		ft_printf_mods(char const *f, t_arg *s)
 
 int		ft_printf_data_type(char f, va_list args, t_arg *s)
 {
+	char *buf2;
+
 	if (f == 's' || f == 'S' || f == 'p' || f == 'd' || f == 'D' || f == 'i'
 		|| f == 'o' || f == 'O' || f == 'u' || f == 'U' || f == 'x' || f == 'X'
 		|| f == 'c' || f == 'C' || f == 'n')
 	{
 		s->data = (int)f;
-		s->buf = va_arg(args, void *);
+		if (s->buf == NULL)
+			s->buf = va_arg(args, void *);
+		else
+		{
+			buf2 = va_arg(args, void *);
+			s->buf = ft_strjoin((char *)s->buf, buf2);
+		}
 		s->l2++;
 		return (1);
 	}

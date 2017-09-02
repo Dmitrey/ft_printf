@@ -38,29 +38,30 @@ void	ft_printf_data_s(t_arg *s)
 		else
 			return (ft_printf_data_width(s, ' '));
 	}
-	return (ft_printf_data_print(s));
+	return ;
 }
 
 void	ft_printf_data_width(t_arg *s, char t)
 {
 	char *tmp;
 
+	s->l1 = 0;
 	s->l3 = (int)ft_strlen(s->str);
 	s->l4 = s->width - s->l3;
 	tmp = ft_strnew(s->l3 + s->l4);
 	if (s->minus == 1)
 	{
-		while (s->l5 < s->width)
-			tmp[s->l5] = s->str[s->l5++];
+		while (s->l5 < s->l3 && s->str[s->l1] != '\0')
+			tmp[s->l5++] = s->str[s->l1++];
 		while (s->l5 < (s->l3 + s->l4))
 			tmp[s->l5++] = t;
 	}
 	else
 	{
-		while (s->l5 < s->width)
+		while (s->l5 < s->l4)
 			tmp[s->l5++] = t;
-		while (s->l5 < (s->l3 + s->l4))
-			tmp[s->l5] = s->str[s->l5++];
+		while (s->l5 < (s->l3 + s->l4) && s->str[s->l1] != '\0')
+			tmp[s->l5++] = s->str[s->l1++];
 	}
 	tmp[s->l5] = '\0';
 	free(s->str);
@@ -68,10 +69,36 @@ void	ft_printf_data_width(t_arg *s, char t)
 	return ;
 }
 
+void	ft_printf_data_0x(t_arg *s)
+{
+	if ((s->data != 'x' && s->data != 'X') || s->hash != 1 ||
+		(unsigned long long)s->buf == 0)
+		return ;
+	if (s->data > 96)
+		s->str = ft_strjoin("0x", s->str);
+	else
+		s->str = ft_strjoin("0X", s->str);
+}
+
 void	ft_printf_data_print(t_arg *s)
 {
 	s->l5 = 0;
-	while(s->str[s->l5])
+	if (s->data == 'c' && s->buf == NULL)
+	{
+		while (s->str)
+		{	
+			write(1, &s->str[s->l5], 1);
+			s->re++;
+			if (s->str[s->l5] == '\0')
+				return ;
+			else
+				s->l5++;
+		}
+	}
+	while(s->str[s->l5] != '\0')
+	{
 		write(1, &s->str[s->l5++], 1);
+		s->re++;
+	}
 	return ;
 }

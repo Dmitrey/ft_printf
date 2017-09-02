@@ -12,13 +12,16 @@
 
 #include "ft_printf.h"
 
-void	ft_printf_percent(char const *f, t_arg *s)
+void	ft_printf_prs(char const f, t_arg *s)
 {
-	while (f[s->l2] == '%' && f[s->l2 + 1] == '%')
-	{
-		write(1, &f[s->l2], 1);
-		s->re++;
-		s->l2++;
-	}
-	return ;
+	char *r;
+
+	r = ft_strnew(2);
+	r[0] = f;
+	r[1] = '\0';
+	if (s->buf == NULL)
+		s->buf = r;
+	else
+		s->buf = ft_strjoin(r, (char *)s->buf);
+	s->accuracy = 1;
 }

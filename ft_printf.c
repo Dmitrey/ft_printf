@@ -28,19 +28,20 @@ int		ft_printf(const char *format, ...)
 	return (sum);
 }
 
-int		ft_printf_take_args(char const *format, va_list args, t_arg *s)
+void	ft_printf_take_args(char const *format, va_list args, t_arg *s)
 {
-	s->l1 = 0;
+	int p;
+
 	while (format[s->l1] != '%' && format[s->l1] != '\0')
 	{
 		write(1, &format[s->l1++], 1);
 		s->re++;
 	}
 	s->arg = ft_printf_split_format(format, 0, 0, s->l1);
-	s->l1 = 0;
-	while (s->arg[s->l1] != NULL)
-		ft_printf_read_format(s->arg[s->l1++], args, s);
-	return (s->re);
+	p = -1;
+	while (s->arg[++p] != NULL)
+		ft_printf_read_format(s->arg[p], args, s);
+	return ;
 }
 
 void	ft_printf_read_format(char const *f, va_list args, t_arg *s)
@@ -48,8 +49,10 @@ void	ft_printf_read_format(char const *f, va_list args, t_arg *s)
 	ft_printf_clear_t_arg(s);
 	while (f[s->l2] != '\0')
 	{
-		if (f[s->l2] == '%' && f[s->l2 + 1] == '%')
-			ft_printf_percent(f, s);
+		if (f[s->l2] == '%' && s->prs == '%')
+			ft_printf_prs(f[s->l2++], s);
+		else if (f[s->l2] == '%' && s->prs != '%')
+			s->prs = f[s->l2++];
 		else if (ft_printf_flags(f[s->l2], s) == 1)
 			s->l2++;
 		else if (f[s->l2] == '.')
@@ -61,14 +64,11 @@ void	ft_printf_read_format(char const *f, va_list args, t_arg *s)
 		else if (ft_printf_data_type(f[s->l2], args, s) == 1)
 		{
 			ft_printf_write_data(f, s);
-			while (f[++s->l2] != '\0')
-				write(1, &f[s->l2], 1);
-			break ;
+			return ;
 		}
-		else if (f[s->l2] == '%')
-			s->l2++;
 	}
-	return ;
+	s->data = 's';
+	ft_printf_write_data(f, s);
 }
 
 void	ft_printf_write_data(char const *f, t_arg *s)
@@ -87,12 +87,11 @@ void	ft_printf_write_data(char const *f, t_arg *s)
 		ft_printf_data_x(s);
 	else if (s->data == 'c' || s->data == 'C')
 		ft_printf_data_c(s);
-//	else if (s->data == 'n')
-//		ft_printf_data_n(f, s);
-	while (f[s->l2] != '\0')
-	{
-		write(1, &f[s->l2++], 1);
-		s->re++;
-	}
+	ft_printf_data_print(s);
+	 while (f[s->l2] != '\0')
+	 {
+	 	write(1, &f[s->l2++], 1);
+	 	s->re++;
+	 }
 	return ;
 }

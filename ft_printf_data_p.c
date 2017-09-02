@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_data_p.c                               :+:      :+:    :+:   */
+/*   ft_printf_data_p.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 void	ft_printf_data_p(t_arg *s)
 {
-	s->str = ft_printf_itoa(s, 15);
+	s->str = ft_printf_itoa(s, 15, 0);
 	if ((ptrdiff_t)s->buf == 0 && s->accuracy == 0)
 	{
 		s->str[0] = '\0';
@@ -31,5 +31,5 @@ void	ft_printf_data_p(t_arg *s)
 		else
 			return (ft_printf_data_width(s, ' '));
 	}
-	return (ft_printf_data_print(s));
+	return ;
 }

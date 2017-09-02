@@ -20,31 +20,30 @@ void	ft_printf_data_c(t_arg *s)
 		return (ft_printf_data_c_wchar_t(s));
 	else
 	{
-		s->str = ft_strnew(7);
+		s->str = ft_strnew(1);
 		if (s->buf != NULL)
 		{
 			r = (char)s->buf;
 			s->str[0] = r;
-			s->str[1] = '\0';
 		}
 		else
-			s->str = "(null)\0";
+			s->str[0] = '\0';
 	}
 	if (s->width > 1)
 	{	
 		if (s->zero == 1)
-			return (ft_printf_data_width(s, '0'));
+			return (ft_printf_data_width_c(s, '0'));
 		else
-			return (ft_printf_data_width(s, ' '));
+			return (ft_printf_data_width_c(s, ' '));
 	}
-	return (ft_printf_data_print(s));
+	return ;
 }
 
 void	ft_printf_data_c_wchar_t(t_arg *s)
 {
 	wchar_t wchar;
 
-	s->str = ft_strnew(7);
+	s->str = ft_strnew(1);
 	if (s->buf != NULL)
 	{
 		wchar = (wchar_t) s->buf;
@@ -54,7 +53,7 @@ void	ft_printf_data_c_wchar_t(t_arg *s)
 			s->str = ft_printf_data_wchar_decode((int) wchar, s, 0);
 	}
 	else
-		s->str = "(null)\0";
+		s->str = "\0";
 	if (s->width > 1) 
 	{
 		if (s->zero == 1)
@@ -62,5 +61,33 @@ void	ft_printf_data_c_wchar_t(t_arg *s)
 		else
 			return (ft_printf_data_wchar_width(s, ' '));
 	}
-	return (ft_printf_data_print(s));
+	return ;
+}
+
+void	ft_printf_data_width_c(t_arg *s, char t)
+{
+	char *tmp;
+
+	s->l1 = 0;
+	s->l3 = (int)ft_strlen(s->str);
+	s->l4 = s->width - s->l3 - (s->buf == NULL ? 1 : 0);
+	tmp = ft_strnew(s->l3 + s->l4);
+	if (s->minus == 1)
+	{
+		while (s->l5 < s->l4 && s->str[s->l1] != '\0')
+			tmp[s->l5++] = s->str[s->l1++];
+		while (s->l5 < (s->l3 + s->l4))
+			tmp[s->l5++] = t;
+	}
+	else
+	{
+		while (s->l5 < s->l4)
+			tmp[s->l5++] = t;
+		while (s->l5 < (s->l3 + s->l4) && s->str[s->l1] != '\0')
+			tmp[s->l5++] = s->str[s->l1++];
+	}
+	tmp[s->l5] = '\0';
+	free(s->str);
+	s->str = tmp;
+	return ;
 }

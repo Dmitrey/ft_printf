@@ -23,9 +23,9 @@ void	ft_printf_data_s_wchar_t(t_arg *s)
 	}
 	else
 		{
-			s->str = ft_strnew(7);
-			s->str = "(null)\0";
-			len = 7;
+			s->str = ft_strnew(1);
+			s->str = "\0";
+			len = 1;
 		}
 	if (s->width > 0 && s->width > len)
 	{	
@@ -34,7 +34,7 @@ void	ft_printf_data_s_wchar_t(t_arg *s)
 		else
 			return (ft_printf_data_wchar_width(s, ' '));
 	}
-	return (ft_printf_data_print(s));
+	return ;
 }
 
 char	*ft_printf_data_wchar_read(t_arg *s)

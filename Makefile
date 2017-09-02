@@ -10,14 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
-
 NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
 SRC = ft_printf.c ft_printf_data_c.c ft_printf_data_d_u_o_x.c \
 ft_printf_data_p.c ft_printf_data_s.c ft_printf_data_s_wchar_t.c \
 ft_printf_format_parsing.c ft_printf_itoa.c ft_printf_make_mem.c \
-ft_printf_split_format.c ft_printf_write_non_format.c
+ft_printf_split_format.c ft_printf_write_non_format.c ft_printf_itoa_unsigned.c
 LIBFT = libft/libft.a
+LIBFT_O = libft_o
 
 OBJECTS = $(SRC:.c=.o)
 
@@ -25,8 +25,9 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@make -C libft
-	@ar rcs $(NAME) $(OBJECTS)
-	ar rcs $(NAME) $(LIBFT)
+	mkdir libft_o && cd $(LIBFT_O) && ar -x ../$(LIBFT) && cd ../
+	@ar rc $(NAME) $(OBJECTS) $(LIBFT_O)/*.o
+	rm -rf $(LIBFT_O)
 	ranlib $(NAME)
 
 %.o: %.c
@@ -41,4 +42,3 @@ fclean: clean
 	make fclean -C libft
 
 re: fclean all
-
