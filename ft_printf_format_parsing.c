@@ -27,7 +27,7 @@ int		ft_printf_flags(char f, t_arg *s)
 	return (0);
 }
 
-void	ft_printf_accuracy(char const *f, t_arg *s, va_list args)
+void	ft_printf_accuracy(char *f, t_arg *s, va_list args)
 {
 	if (f[s->l2] == '.')
 		s->l2++;
@@ -47,12 +47,18 @@ void	ft_printf_accuracy(char const *f, t_arg *s, va_list args)
 	return ;
 }
 
-void	ft_printf_width(char const *f, t_arg *s, va_list args)
+void	ft_printf_width(char *f, t_arg *s, va_list args)
 {
+	s->width = 0;
 	if (f[s->l2] == '*')
 	{
 		s->width = va_arg(args, int);
 		s->l2++;
+		if (s->width < 0)
+		{
+			s->minus = 1;
+			s->width *= -1;
+		}
 	}
 	else if (ft_isdigit(f[s->l2]) == 1)
 		while (ft_isdigit(f[s->l2]) == 1)
@@ -65,7 +71,7 @@ void	ft_printf_width(char const *f, t_arg *s, va_list args)
 	return ;
 }
 
-int		ft_printf_mods(char const *f, t_arg *s)
+int		ft_printf_mods(char *f, t_arg *s)
 {
 	if (f[s->l2] == 'h' && s->h != 1)
 		return (s->h = 1);
@@ -82,34 +88,12 @@ int		ft_printf_mods(char const *f, t_arg *s)
 		return (s->ll = 1);
 	}
 	else if (f[s->l2] == 'L')
-		return (s->L = 1);
+		return (s->lll = 1);
 	else if (f[s->l2] == 'j')
 		return (s->j = 1);
 	else if (f[s->l2] == 'z')
 		return (s->z = 1);
 	else if (f[s->l2] == 't')
 		return (s->t = 1);
-	return (0);
-}
-
-int		ft_printf_data_type(char f, va_list args, t_arg *s)
-{
-	char *buf2;
-
-	if (f == 's' || f == 'S' || f == 'p' || f == 'd' || f == 'D' || f == 'i'
-		|| f == 'o' || f == 'O' || f == 'u' || f == 'U' || f == 'x' || f == 'X'
-		|| f == 'c' || f == 'C' || f == 'n')
-	{
-		s->data = (int)f;
-		if (s->buf == NULL)
-			s->buf = va_arg(args, void *);
-		else
-		{
-			buf2 = va_arg(args, void *);
-			s->buf = ft_strjoin((char *)s->buf, buf2);
-		}
-		s->l2++;
-		return (1);
-	}
 	return (0);
 }

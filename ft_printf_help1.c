@@ -1,43 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_data_s.c                                 :+:      :+:    :+:   */
+/*   ft_printf_help1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/08 16:58:34 by dverbyts          #+#    #+#             */
-/*   Updated: 2017/08/08 16:58:37 by dverbyts         ###   ########.fr       */
+/*   Created: 2017/09/05 15:28:21 by dverbyts          #+#    #+#             */
+/*   Updated: 2017/09/05 15:28:24 by dverbyts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_printf_data_s(t_arg *s)
+void	ft_printf_data_ps(t_arg *s)
 {
-	if (s->l == 1 || s->data == 'S')
-		return (ft_printf_data_s_wchar_t(s));
-	else
+	char t[2];
+
+	t[0] = '\0';
+	t[1] = '\0';
+	if (s->spase == 1 && (s->str[0] != '-' && s->str[0] != '+'))
+		t[0] = ' ';
+	if (s->plus == 1)
 	{
-		if (s->buf != NULL)
-		{
-			s->str = ft_strnew(ft_strlen((char *)s->buf));
-			s->str = ft_strcpy(s->str, (char *)s->buf);
-		}
+		if (s->str[0] == '-')
+			t[0] = '-';
 		else
-		{
-			s->str = ft_strnew(7);
-			s->str = "(null)\0";
-		}
+			t[0] = '+';
 	}
-	if (s->accuracy > -1 && s->accuracy < (int)ft_strlen(s->str))
-		s->str[s->accuracy] = '\0';
-	if (s->width > 0 && s->width > (int)ft_strlen(s->str))
-	{	
-		if (s->zero == 1)
-			return (ft_printf_data_width(s, '0'));
-		else
-			return (ft_printf_data_width(s, ' '));
-	}
+	if (t[0] != s->str[0])
+		s->str = ft_strjoin(t, s->str);
 	return ;
 }
 
@@ -71,34 +62,28 @@ void	ft_printf_data_width(t_arg *s, char t)
 
 void	ft_printf_data_0x(t_arg *s)
 {
-	if ((s->data != 'x' && s->data != 'X') || s->hash != 1 ||
-		(unsigned long long)s->buf == 0)
+	if (((s->data != 'x' && s->data != 'X') || s->hash != 1 ||
+		(unsigned long long)s->buf == 0) && s->data != 'p')
 		return ;
+	if (s->width && (int)ft_strlen(s->str) == s->width && s->buf == NULL)
+	{
+		if (s->data > 96)
+			s->str[1] = 'x';
+		else
+			s->str[1] = 'X';
+		return ;
+	}
 	if (s->data > 96)
 		s->str = ft_strjoin("0x", s->str);
 	else
 		s->str = ft_strjoin("0X", s->str);
 }
 
-void	ft_printf_data_print(t_arg *s)
+int		ft_printf_data_type2(char f)
 {
-	s->l5 = 0;
-	if (s->data == 'c' && s->buf == NULL)
-	{
-		while (s->str)
-		{	
-			write(1, &s->str[s->l5], 1);
-			s->re++;
-			if (s->str[s->l5] == '\0')
-				return ;
-			else
-				s->l5++;
-		}
-	}
-	while(s->str[s->l5] != '\0')
-	{
-		write(1, &s->str[s->l5++], 1);
-		s->re++;
-	}
-	return ;
+	if (f == 's' || f == 'S' || f == 'p' || f == 'd' || f == 'D' || f == 'i'
+		|| f == 'o' || f == 'O' || f == 'u' || f == 'U' || f == 'x' || f == 'X'
+		|| f == 'c' || f == 'C' || f == 'n')
+		return (1);
+	return (0);
 }

@@ -28,7 +28,7 @@ int		ft_printf(const char *format, ...)
 	return (sum);
 }
 
-void	ft_printf_take_args(char const *format, va_list args, t_arg *s)
+void	ft_printf_take_args(const char *format, va_list args, t_arg *s)
 {
 	int p;
 
@@ -44,34 +44,57 @@ void	ft_printf_take_args(char const *format, va_list args, t_arg *s)
 	return ;
 }
 
-void	ft_printf_read_format(char const *f, va_list args, t_arg *s)
+void	ft_printf_read_format(char *f, va_list args, t_arg *s)
 {
 	ft_printf_clear_t_arg(s);
 	while (f[s->l2] != '\0')
 	{
 		if (f[s->l2] == '%' && s->prs == '%')
-			ft_printf_prs(f[s->l2++], s);
+			f = ft_printf_prs(f, s);
 		else if (f[s->l2] == '%' && s->prs != '%')
 			s->prs = f[s->l2++];
 		else if (ft_printf_flags(f[s->l2], s) == 1)
 			s->l2++;
-		else if (f[s->l2] == '.')
+		else if (f[s->l2] == '.' && s->prs == '%')
 			ft_printf_accuracy(f, s, args);
-		else if (f[s->l2] == '*' || ft_isdigit(f[s->l2]) == 1)
+		else if (f[s->l2] == '*' || (ft_isdigit(f[s->l2]) == 1
+			&& s->prs == '%'))
 			ft_printf_width(f, s, args);
 		else if (ft_printf_mods(f, s) == 1)
 			s->l2++;
-		else if (ft_printf_data_type(f[s->l2], args, s) == 1)
-		{
-			ft_printf_write_data(f, s);
-			return ;
-		}
+		else if (ft_printf_data_type(f[s->l2], args, s) == 1 && s->prs == '%')
+			return (ft_printf_write_data(f, s));
+		else
+			ft_printf_nonformat(f, s);
 	}
-	s->data = 's';
+	if (s->buf != NULL)
+		s->data = 's';
 	ft_printf_write_data(f, s);
 }
 
-void	ft_printf_write_data(char const *f, t_arg *s)
+int		ft_printf_data_type(char f, va_list args, t_arg *s)
+{
+	char *buf2;
+
+	if (f == 's' || f == 'S' || f == 'p' || f == 'd' || f == 'D' || f == 'i'
+		|| f == 'o' || f == 'O' || f == 'u' || f == 'U' || f == 'x' || f == 'X'
+		|| f == 'c' || f == 'C' || f == 'n')
+	{
+		s->data = (int)f;
+		if (s->buf == NULL)
+			s->buf = va_arg(args, void *);
+		else
+		{
+			buf2 = va_arg(args, void *);
+			s->buf = ft_strjoin((char *)s->buf, buf2);
+		}
+		s->l2++;
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_printf_write_data(char *f, t_arg *s)
 {
 	if (s->data == 's' || s->data == 'S')
 		ft_printf_data_s(s);
@@ -87,11 +110,12 @@ void	ft_printf_write_data(char const *f, t_arg *s)
 		ft_printf_data_x(s);
 	else if (s->data == 'c' || s->data == 'C')
 		ft_printf_data_c(s);
-	ft_printf_data_print(s);
-	 while (f[s->l2] != '\0')
-	 {
-	 	write(1, &f[s->l2++], 1);
-	 	s->re++;
-	 }
+	if (s->str != NULL)
+		ft_printf_data_print(s);
+	while (f[s->l2] != '\0')
+	{
+		write(1, &f[s->l2++], 1);
+		s->re++;
+	}
 	return ;
 }

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *t, char const *y)
+char	*ft_strjoin(char *t, char *y)
 {
 	char	*r;
 	int		i;
@@ -25,18 +25,10 @@ char	*ft_strjoin(char const *t, char const *y)
 	i = 0;
 	x = 0;
 	while (t[i])
-	{
-		r[x] = t[i];
-		i++;
-		x++;
-	}
+		r[x++] = t[i++];
 	i = 0;
 	while (y[i])
-	{
-		r[x] = y[i];
-		i++;
-		x++;
-	}
+		r[x++] = y[i++];
 	r[x] = '\0';
 	return (r);
 }

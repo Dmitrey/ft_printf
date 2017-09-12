@@ -14,9 +14,9 @@
 
 int		how_m_words(char const *str)
 {
-	int words;
-	int i;
-	int f;
+	int		words;
+	int		i;
+	int		f;
 
 	words = 1;
 	i = 0;
@@ -37,7 +37,7 @@ int		how_m_words(char const *str)
 
 int		how_b(char const *s, int i)
 {
-	int counter;
+	int		counter;
 
 	counter = 1;
 	while (s[i] == '%' && s[i++] != '\0')
@@ -51,7 +51,7 @@ int		how_b(char const *s, int i)
 	return (counter);
 }
 
-char		**ft_printf_split_format(char const *f, int i, int args, int a)
+char	**ft_printf_split_format(char const *f, int i, int args, int a)
 {
 	char	**array;
 	int		l;
@@ -74,14 +74,13 @@ char		**ft_printf_split_format(char const *f, int i, int args, int a)
 			array[i][l++] = f[a++];
 		while (f[a] != '%' && f[a] != '\0')
 			array[i][l++] = f[a++];
-		array[i][arg] = '\0';
-		array[i++][l] = '\0';
+		array[i++][arg] = '\0';
 	}
 	array[i] = NULL;
 	return (array);
 }
 
-int			ft_printf_chek_data(char f)
+int		ft_printf_chek_data(char f)
 {
 	if (f == 's' || f == 'S' || f == 'p' || f == 'd' || f == 'D' || f == 'i'
 		|| f == 'o' || f == 'O' || f == 'u' || f == 'U' || f == 'x' || f == 'X'

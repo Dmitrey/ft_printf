@@ -22,13 +22,12 @@ void	ft_printf_data_s_wchar_t(t_arg *s)
 		len = ft_strlen(s->str);
 	}
 	else
-		{
-			s->str = ft_strnew(1);
-			s->str = "\0";
-			len = 1;
-		}
+		s->str = ft_strdup("(null)\0");
+	if (s->spase == 1 && (s->buf != NULL && ft_strcmp(s->str, "(null)") != 0
+		&& s->str[0] != '\0'))
+		ft_printf_data_ps(s);
 	if (s->width > 0 && s->width > len)
-	{	
+	{
 		if (s->zero == 1)
 			return (ft_printf_data_wchar_width(s, '0'));
 		else
@@ -37,31 +36,54 @@ void	ft_printf_data_s_wchar_t(t_arg *s)
 	return ;
 }
 
-char	*ft_printf_data_wchar_read(t_arg *s)
+void	ft_printf_data_wchar_read(t_arg *s)
+{
+	if (s->accuracy > -1)
+		return (ft_printf_data_wchar_read2(s));
+	s->wchar = (wchar_t *)s->buf;
+	s->tmp1 = ft_strnew(1);
+	while (s->wchar[s->l3])
+	{
+		if ((int)s->wchar[s->l3] < 128)
+		{
+			s->tmp2 = ft_strnew(2);
+			s->tmp2[0] = (char)s->wchar[s->l3++];
+		}
+		else
+			s->tmp2 = ft_printf_wchar_decode((int)s->wchar[s->l3++], s, 0);
+		s->tmp1 = ft_strjoin(s->tmp1, s->tmp2);
+		if (s->tmp2)
+			free(s->tmp2);
+	}
+	s->str = s->tmp1;
+	return ;
+}
+
+void	ft_printf_data_wchar_read2(t_arg *s)
 {
 	s->wchar = (wchar_t *)s->buf;
 	s->tmp1 = ft_strnew(1);
-	if (s->accuracy > -1)
+	while (s->wchar[s->l3] && (int)ft_strlen(s->tmp1) < s->accuracy)
 	{
-		s->tmp2 = ft_strnew(1);
-		while (s->wchar[s->l3] && (int)ft_strlen(s->tmp1) < s->accuracy)
+		if ((int)s->wchar[s->l3] < 128)
 		{
-			if ((int)s->wchar[s->l3] < 128)
-				s->tmp2[0] = (char)s->wchar[s->l3++];
-			else
-				s->tmp2 = ft_printf_data_wchar_decode((int)s->wchar[s->l3++], s, 0);
-			if ((s->l5 += ft_strlen(s->tmp2)) > s->accuracy)
-				break ;
-			s->tmp1 = ft_strjoin(s->tmp1, s->tmp2);
+			s->tmp2 = ft_strnew(2);
+			s->tmp2[0] = (char)s->wchar[s->l3++];
 		}
+		else
+			s->tmp2 = ft_printf_wchar_decode((int)s->wchar[s->l3++], s, 0);
+		if (((int)ft_strlen(s->tmp1) + (int)ft_strlen(s->tmp2)) > s->accuracy)
+		{
+			if (s->tmp2)
+				free(s->tmp2);
+			break ;
+		}
+		s->tmp1 = ft_strjoin(s->tmp1, s->tmp2);
+		if (s->tmp2)
+			free(s->tmp2);
 	}
-	else
-	{
-		while (s->wchar[s->l3])
-			s->tmp1 = ft_strjoin(s->tmp1,
-				ft_printf_data_wchar_decode((int)s->wchar[s->l3++], s, 0));
-	}
-	return (s->str = s->tmp1);
+	s->str = s->tmp1;
+	return ;
 }
 
 void	ft_printf_data_wchar_width(t_arg *s, char t)
@@ -81,7 +103,7 @@ void	ft_printf_data_wchar_width(t_arg *s, char t)
 	return ;
 }
 
-char	*ft_printf_data_wchar_decode(int t, t_arg *s, int z)
+char	*ft_printf_wchar_decode(int t, t_arg *s, int z)
 {
 	char	*ret;
 
@@ -97,11 +119,11 @@ char	*ft_printf_data_wchar_decode(int t, t_arg *s, int z)
 	else
 		z = 240;
 	s->l5 = 0;
-	ret[s->l5++] = (char)((t >> (6 * s->l4)) | z);
+	ret[s->l5++] = (char)(((t >> (6 * s->l4)) & 63) + z);
 	if (s->l4 > 1)
-		ret[s->l5++] = (char)((t >> (6 * (s->l4 - 1))) | 128);
+		ret[s->l5++] = (char)(((t >> (6 * (s->l4 - 1))) & 63) + 128);
 	if (s->l4 > 2)
-		ret[s->l5++] = (char)((t >> (6 * (s->l4 - 2))) | 128);
-	ret[s->l5] = (char)((t & 63) | 128);
+		ret[s->l5++] = (char)(((t >> (6 * (s->l4 - 2))) & 63) + 128);
+	ret[s->l5] = (char)((t & 63) + 128);
 	return (ret);
 }

@@ -12,47 +12,9 @@
 
 #include "ft_printf.h"
 
-char	ft_printf_itoa_hash(int base, t_arg *s)
+char	*ft_printf_itoa_rev(char *src, char *dst, t_arg *s, int min)
 {
-
-	if (s->j5 % base == 10)
-		return (s->data > 96 ? 'a' : 'A');
-	else if (s->j5 % base == 11)
-		return (s->data > 96 ? 'b' : 'B');
-	else if (s->j5 % base == 12)
-		return (s->data > 96 ? 'c' : 'C');
-	else if (s->j5 % base == 13)
-		return (s->data > 96 ? 'd' : 'D');
-	else if (s->j5 % base == 14)
-		return (s->data > 96 ? 'e' : 'E');
-	else if (s->j5 % base == 15)
-		return (s->data > 96 ? 'f' : 'F');
-	return ('0');
-}
-
-unsigned long long int	ft_printf_itoa_len(t_arg *s, int b)
-{
-	unsigned long long int	len;
-	unsigned long long int	n;
-
-	n = s->j1;
-	len = 1;
-	if ((ptrdiff_t)s->buf < 0)
-	{
-		n = n * -1;
-		len++;
-	}
-	while (n != 0)
-	{
-		n = n / b;
-		len++;
-	}
-	return (len);
-}
-
-char			*ft_printf_itoa_rev(char *src, char *dst, t_arg *s, int min)
-{
-	size_t count;
+	int		count;
 
 	--s->j2;
 	count = ft_strlen(src) - 1;
@@ -74,25 +36,68 @@ char			*ft_printf_itoa_rev(char *src, char *dst, t_arg *s, int min)
 	return (dst);
 }
 
-char			*ft_printf_itoa_make(t_arg *s, char *r, int minf, int base)
+t_arg	*ft_printf_flags_signed(t_arg *s)
 {
-	char	*buf;
+	if (s->t == 1)
+		s->j5 = (ptrdiff_t)s->buf;
+	else if (s->z == 1)
+		s->j5 = (size_t)s->buf;
+	else if (s->j == 1)
+		s->j5 = (intmax_t)s->buf;
+	else if (s->ll == 1 || (s->data == 'D' && s->hh == 1))
+		s->j5 = (long long)s->buf;
+	else if (s->l == 1)
+		s->j5 = (long)s->buf;
+	else if (s->h == 1)
+		s->j5 = (short int)s->buf;
+	else if (s->hh == 1)
+		s->j5 = (signed char)s->buf;
+	else
+		s->j5 = (int)s->buf;
+	return (s);
+}
+
+int		ft_printf_itoa_len(t_arg *s, int b)
+{
+	int			len;
+	ptrdiff_t	n;
+
+	n = s->j5;
+	len = 1;
+	if (n < 0)
+	{
+		n = n * -1;
+		len++;
+	}
+	while (n != 0)
+	{
+		n = n / b;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_printf_itoa_make(t_arg *s, char *r, int minf, int base)
+{
+	char		*buf;
 
 	s->j3 = s->j2 - 1;
 	if (!(buf = (char *)malloc(sizeof(char) * s->j2)))
 		return (0);
 	if (minf == 1)
 	{
-		s->j5 = s->j5 * -1;
+		s->j4 = s->j5 * -1;
 		s->j3--;
 	}
-	while ((unsigned long long)s->l4 < s->j3)
+	else
+		s->j4 = s->j5;
+	while ((ptrdiff_t)s->l4 < s->j3)
 	{
-		if (s->j5 % base < 10)
-			buf[s->l4++] = s->j5 % base + '0';
+		if (s->j4 % base < 10)
+			buf[s->l4++] = s->j4 % base + '0';
 		else
 			buf[s->l4++] = ft_printf_itoa_hash(base, s);
-		s->j5 = s->j5 / base;
+		s->j4 = s->j4 / base;
 	}
 	buf[s->l4] = '\0';
 	r = ft_printf_itoa_rev(buf, r, s, minf);
@@ -101,23 +106,28 @@ char			*ft_printf_itoa_make(t_arg *s, char *r, int minf, int base)
 	return (r);
 }
 
-char			*ft_printf_itoa(t_arg *s, int b, int minf)
+char	*ft_printf_itoa(t_arg *s, int b, int minf)
 {
-	char	*re;
+	char		*re;
 
-	s->l5 = 0;
-	s = ft_printf_flags_signed(s);
-	s->j5 = s->j1;
-	if (s->j1 == 0)
+	if (s->t == 1 || s->z == 1 || s->j == 1 || s->ll == 1 || s->h == 1 ||
+		s->hh == 1 || s->l == 1 || s->data == 'D')
 	{
-		re = ft_strnew(2);
-		return (re = "0\0");
+		s->l5 = 0;
+		s = ft_printf_flags_signed(s);
+		if (s->j5 == 0)
+		{
+			re = ft_strnew(2);
+			return (re = "0\0");
+		}
+		if (s->j5 < 0)
+			minf = 1;
+		s->j2 = ft_printf_itoa_len(s, b);
+		if (!(re = (char *)malloc(sizeof(char) * s->j2)))
+			return (0);
+		s->str = ft_printf_itoa_make(s, re, minf, b);
 	}
-	if ((ptrdiff_t)s->buf < 0)
-		minf = 1;
-	s->j2 = ft_printf_itoa_len(s, b);
-	if (!(re = (char *)malloc(sizeof(char) * s->j2)))
-		return (0);
-	s->str = ft_printf_itoa_make(s, re, minf, b);
+	else
+		re = ft_itoa((int)s->buf);
 	return (re);
 }

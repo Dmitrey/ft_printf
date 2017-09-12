@@ -12,10 +12,10 @@
 
 NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
-SRC = ft_printf.c ft_printf_data_c.c ft_printf_data_d_u_o_x.c \
-ft_printf_data_p.c ft_printf_data_s.c ft_printf_data_s_wchar_t.c \
-ft_printf_format_parsing.c ft_printf_itoa.c ft_printf_make_mem.c \
-ft_printf_split_format.c ft_printf_write_non_format.c ft_printf_itoa_unsigned.c
+SRC = ft_printf.c ft_printf_data_c.c ft_printf_data_p_u_x_o.c \
+ft_printf_data_d.c ft_printf_data_s_wchar_t.c ft_printf_format_parsing.c \
+ft_printf_itoa.c ft_printf_itoa_unsigned.c ft_printf_make_mem.c \
+ft_printf_split_format.c ft_printf_data_print.c ft_printf_help1.c
 LIBFT = libft/libft.a
 LIBFT_O = libft_o
 

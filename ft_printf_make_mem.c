@@ -23,41 +23,49 @@ t_arg	*ft_printf_make_mem(void)
 	return (ret);
 }
 
-void	ft_printf_clear_t_arg(t_arg *x)
+void	ft_printf_clear_t_arg(t_arg *s)
 {
-	x->hh = 0;
-	x->h = 0;
-	x->l = 0;
-	x->ll = 0;
-	x->j = 0;
-	x->z = 0;
-	x->t = 0;
-	x->L = 0;
-	x->prs = 0;
-	x->accuracy = -1;
-	x->width = 0;
-	x->minus = 0;
-	x->plus = 0;
-	x->spase = 0;
-	x->hash = 0;
-	x->zero = 0;
-	x->str = 0;
-	x->buf = 0;
-	x->l1 = 0;
-	x->l2 = 0;
-	x->l3 = 0;
-	x->l4 = 0;
-	x->l5 = 0;
-	x->data = 0;
-	x->j1 = 0;
-	x->j2 = 0;
-	x->j3 = 0;
-	x->j4 = 0;
-	x->j5 = 0;
-	x->data = 0;
-	x->wchar = 0;
-	x->tmp1 = 0;
-	x->tmp2 = 0;
+	s->hh = 0;
+	s->h = 0;
+	s->l = 0;
+	s->ll = 0;
+	s->j = 0;
+	s->z = 0;
+	s->t = 0;
+	s->lll = 0;
+	s->prs = 0;
+	s->accuracy = -1;
+	s->width = 0;
+	s->minus = 0;
+	s->plus = 0;
+	s->spase = 0;
+	s->hash = 0;
+	s->zero = 0;
+	s->str = 0;
+	s->buf = 0;
+	s->l1 = 0;
+	s->l2 = 0;
+	s->l3 = 0;
+	s->l4 = 0;
+	s->l5 = 0;
+	ft_printf_clear_t_arg2(s);
+	return ;
+}
+
+void	ft_printf_clear_t_arg2(t_arg *s)
+{
+	s->data = 0;
+	s->j1 = 0;
+	s->j2 = 0;
+	s->j3 = 0;
+	s->j4 = 0;
+	s->j5 = 0;
+	s->j6 = 0;
+	s->data = 0;
+	s->wchar = 0;
+	s->tmp1 = 0;
+	s->tmp2 = 0;
+	return ;
 }
 
 void	ft_printf_del_arg(t_arg *del)

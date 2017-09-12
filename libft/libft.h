@@ -82,7 +82,7 @@ void				ft_strdel(char **ap);
 char				**ft_strsplit(char const *s, char c);
 char				*ft_strtrim(char *s);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
-char				*ft_strjoin(char const *t, char const *y);
+char				*ft_strjoin(char *t, char *y);
 char				*ft_itoa(int n);
 void				ft_striter(char *s, void (*f) (char *));
 void				ft_striteri(char *s, void (*f) (unsigned int, char *));
