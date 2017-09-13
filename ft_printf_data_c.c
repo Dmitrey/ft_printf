@@ -43,10 +43,10 @@ void	ft_printf_data_c(t_arg *s)
 {
 	char r;
 
-	if (s->l == 1 || s->data == 'C')
+	/*if (s->l == 1 || s->data == 'C')
 		return (ft_printf_data_c_wchar_t(s));
 	else
-	{
+	{*/
 		s->str = ft_strnew(1);
 		if (s->buf != NULL)
 		{
@@ -55,7 +55,7 @@ void	ft_printf_data_c(t_arg *s)
 		}
 		else
 			s->str[0] = '\0';
-	}
+	//}
 	if (s->str[0] == '\0' && s->width > 1 && s->minus == 1)
 		return (ft_printf_data_c2(s));
 	if (s->width > 1)
