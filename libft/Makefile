@@ -29,10 +29,10 @@ OBJ = $(FT:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
+	@ar rc $(NAME) $(OBJ)
 
 %.o: %.c
-	gcc $(CFLAGS) -c -o $@ $<
+	@gcc $(CFLAGS) -c -o $@ $<
 
 clean:
 	rm -f $(OBJ)
