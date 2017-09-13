@@ -11,11 +11,14 @@
 # **************************************************************************** #
 
 NAME = libftprintf.a
+
 FLAGS = -Wall -Wextra -Werror
+
 SRC = ft_printf.c ft_printf_data_c.c ft_printf_data_p_u_x_o.c \
 ft_printf_data_d.c ft_printf_data_s_wchar_t.c ft_printf_format_parsing.c \
 ft_printf_itoa.c ft_printf_itoa_unsigned.c ft_printf_make_mem.c \
 ft_printf_split_format.c ft_printf_data_print.c ft_printf_help1.c
+
 FT = libft/ft_isalnum.o libft/ft_isascii.o libft/ft_isprint.o \
 libft/ft_putchar_fd.o libft/ft_putendl_fd.o libft/ft_putnbr_fd.o \
 libft/ft_putstr_fd.o libft/ft_strclr.o libft/ft_strequ.o libft/ft_memnclr.o \
@@ -38,8 +41,7 @@ OBJECTS = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
-	@make -C libft
+$(NAME): $(OBJECTS) libft/libft.a
 	@ar rc $(NAME) $(OBJECTS) $(FT)
 	@ranlib $(NAME)
 
@@ -53,5 +55,8 @@ clean:
 fclean: clean
 	rm -rf $(NAME)
 	make fclean -C libft
+
+libft/libft.a:
+	@make -C libft
 
 re: fclean all
