@@ -109,9 +109,10 @@ char					**ft_printf_split_format(char const *f, int i, int args,
 						int a);
 char					*ft_printf_prs(char *f, t_arg *s);
 char					*ft_printf_prs2(char *f, t_arg *s);
-void					ft_printf_nonformat(char *f, t_arg *s);
-void					ft_printf_nonformat2(t_arg *s, char t);
+void					ft_printf_nonf(char *f, t_arg *s);
+void					ft_printf_nonf2(t_arg *s, char t);
 void					ft_printf_data_s(t_arg *s);
+void					ft_printf_data_ss(char p, t_arg *s);
 void					ft_printf_data_width(t_arg *s, char t);
 void					ft_printf_data_width_c(t_arg *s, char t);
 void					ft_printf_data_print(t_arg *s);

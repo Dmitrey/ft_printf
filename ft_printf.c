@@ -53,19 +53,20 @@ void	ft_printf_read_format(char *f, va_list args, t_arg *s)
 			f = ft_printf_prs(f, s);
 		else if (f[s->l2] == '%' && s->prs != '%')
 			s->prs = f[s->l2++];
+		else if (s->prs != '%' && s->buf == NULL)
+			ft_printf_data_ss(f[s->l2++], s);
 		else if (ft_printf_flags(f[s->l2], s) == 1)
 			s->l2++;
 		else if (f[s->l2] == '.' && s->prs == '%')
 			ft_printf_accuracy(f, s, args);
-		else if (f[s->l2] == '*' || (ft_isdigit(f[s->l2]) == 1
-			&& s->prs == '%'))
+		else if (f[s->l2] == '*' || (ft_isdigit(f[s->l2]) && s->prs == '%'))
 			ft_printf_width(f, s, args);
 		else if (ft_printf_mods(f, s) == 1)
 			s->l2++;
 		else if (ft_printf_data_type(f[s->l2], args, s) == 1 && s->prs == '%')
 			return (ft_printf_write_data(f, s));
 		else
-			ft_printf_nonformat(f, s);
+			ft_printf_nonf(f, s);
 	}
 	if (s->buf != NULL)
 		s->data = 's';

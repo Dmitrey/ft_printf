@@ -31,7 +31,7 @@ void	ft_printf_data_s(t_arg *s)
 		s->str[s->accuracy] = '\0';
 	if (s->width > 0 && s->width > (int)ft_strlen(s->str))
 	{
-		if (s->zero == 1)
+		if (s->zero == 1 && s->minus != 1)
 			return (ft_printf_data_width(s, '0'));
 		else
 			return (ft_printf_data_width(s, ' '));

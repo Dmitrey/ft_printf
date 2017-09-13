@@ -87,3 +87,10 @@ int		ft_printf_data_type2(char f)
 		return (1);
 	return (0);
 }
+
+void	ft_printf_data_ss(char p, t_arg *s)
+{
+	write(1, &p, 1);
+	s->re++;
+	return ;
+}

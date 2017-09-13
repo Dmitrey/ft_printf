@@ -44,6 +44,8 @@ char	*ft_printf_prs(char *f, t_arg *s)
 	r[1] = '\0';
 	if (s->buf == NULL)
 	{
+		if (s->minus == 1 && s->zero == 1)
+			s->zero = 0;
 		s->accuracy = -1;
 		s->plus = 0;
 		s->spase = 0;
@@ -77,8 +79,9 @@ char	*ft_printf_prs2(char *f, t_arg *s)
 	return (f);
 }
 
-void	ft_printf_nonformat(char *f, t_arg *s)
+void	ft_printf_nonf(char *f, t_arg *s)
 {
+	s->prs = 0;
 	s->tmp1 = ft_strnew(1);
 	s->tmp1[0] = f[s->l2++];
 	if (s->buf == NULL)
@@ -86,27 +89,19 @@ void	ft_printf_nonformat(char *f, t_arg *s)
 	else
 		s->buf = ft_strjoin((char *)s->buf, s->tmp1);
 	if (s->width > 0 && s->width > (int)ft_strlen((char *)s->buf))
-	{
-		if (s->zero == 1)
-			ft_printf_nonformat2(s, '0');
-		else
-			ft_printf_nonformat2(s, ' ');
-	}
+		s->zero == 1 ? ft_printf_nonf2(s, '0') : ft_printf_nonf2(s, ' ');
 	if (s->accuracy == 0)
 		s->accuracy = -1;
-	if (ft_isalpha(f[s->l2 - 1]))
-	{
-		while (ft_isascii(f[s->l2]) && f[s->l2] != '\0')
+		while (f[s->l2] != '\0' && f[s->l2] != '%')
 		{
 			s->tmp1[0] = f[s->l2++];
 			s->buf = ft_strjoin((char *)s->buf, s->tmp1);
 		}
-		if (f[s->l2] == '\0' && s->spase == 1)
+		if ((f[s->l2] == '\0' || f[s->l2] == '%') && s->spase == 1)
 			s->spase = 0;
-	}
 }
 
-void	ft_printf_nonformat2(t_arg *s, char t)
+void	ft_printf_nonf2(t_arg *s, char t)
 {
 	s->tmp1 = ft_strdup((char *)s->buf);
 	s->l1 = 0;
