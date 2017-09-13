@@ -41,7 +41,7 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	@make -C libft
 	@ar rc $(NAME) $(OBJECTS) $(FT)
-	ranlib $(NAME)
+	@ranlib $(NAME)
 
 %.o: %.c
 	@gcc $(FLAGS) -c -o $@ $<
