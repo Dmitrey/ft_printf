@@ -14,10 +14,10 @@ NAME = libftprintf.a
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = ft_printf.c ft_printf_data_c.c ft_printf_data_p_u_x_o.c \
-ft_printf_data_d.c ft_printf_data_s_wchar_t.c ft_printf_format_parsing.c \
-ft_printf_itoa.c ft_printf_itoa_unsigned.c ft_printf_make_mem.c \
-ft_printf_split_format.c ft_printf_data_print.c ft_printf_help1.c
+OBJECTS = ft_printf.o ft_printf_data_c.o ft_printf_data_d.o \
+ft_printf_data_p_u_x_o.o ft_printf_data_print.o ft_printf_data_s_wchar_t.o \
+ft_printf_format_parsing.o ft_printf_help1.o ft_printf_itoa.o \
+ft_printf_itoa_unsigned.o ft_printf_make_mem.o ft_printf_split_format.o 
 
 FT = libft/ft_isalnum.o libft/ft_isascii.o libft/ft_isprint.o \
 libft/ft_putchar_fd.o libft/ft_putendl_fd.o libft/ft_putnbr_fd.o \
@@ -37,16 +37,14 @@ libft/ft_lstnew.o libft/ft_lstdelone.o libft/ft_lstdel.o libft/ft_lstadd.o \
 libft/ft_lstiter.o libft/ft_lstmap.o libft/ft_lstpush.o libft/ft_lstlen.o \
 libft/ft_atoi_16.o libft/get_next_line.o
 
-OBJECTS = $(SRC:.c=.o)
-
 all: $(NAME)
+
+%.o: %.c
+	@gcc $(FLAGS) -c -o $@ $<
 
 $(NAME): $(OBJECTS) libft/libft.a
 	@ar rc $(NAME) $(OBJECTS) $(FT)
 	@ranlib $(NAME)
-
-%.o: %.c
-	@gcc $(FLAGS) -c -o $@ $<
 
 clean:
 	rm -rf $(OBJECTS)
