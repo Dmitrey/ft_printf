@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/01 16:20:01 by dverbyts          #+#    #+#             */
-/*   Updated: 2016/12/01 16:20:02 by dverbyts         ###   ########.fr       */
+/*   Created: 2016/11/21 16:52:29 by dverbyts          #+#    #+#             */
+/*   Updated: 2016/11/21 16:52:32 by dverbyts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_strncmp(char const *s1, char const *s2, size_t n)
+char	*ft_strcpy(char *dest, const char *sors)
 {
-	size_t start;
+	size_t	start;
+	size_t	end;
 
-	if (!n)
-		return (0);
+	end = ft_strlen(sors);
 	start = 0;
-	while ((start + 1) < n && (s1[start] == s2[start]) && (s1[start] != '\0') &&
-		(s2[start] != '\0'))
+	while (end)
+	{
+		dest[start] = sors[start];
+		end--;
 		start++;
-	return ((unsigned char)s1[start] - (unsigned char)s2[start]);
+	}
+	dest[start] = '\0';
+	return (dest);
 }

@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/01 16:19:51 by dverbyts          #+#    #+#             */
-/*   Updated: 2016/12/01 16:19:53 by dverbyts         ###   ########.fr       */
+/*   Created: 2016/12/01 19:22:05 by dverbyts          #+#    #+#             */
+/*   Updated: 2016/12/01 19:22:08 by dverbyts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_strcmp(char const *s1, char const *s2)
+void	ft_bzero(void *s, size_t n)
 {
-	int start;
+	int x;
 
-	start = 0;
-	while ((s1[start] == s2[start]) && (s1[start] != '\0') &&
-		(s2[start] != '\0'))
-		start++;
-	return ((unsigned char)s1[start] - (unsigned char)s2[start]);
+	x = 0;
+	if (!n)
+		return ;
+	while (n)
+	{
+		((char *)s)[x] = 0;
+		n--;
+		x++;
+	}
 }

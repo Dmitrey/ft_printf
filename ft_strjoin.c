@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/24 16:43:45 by dverbyts          #+#    #+#             */
-/*   Updated: 2016/11/24 16:43:47 by dverbyts         ###   ########.fr       */
+/*   Created: 2016/12/13 19:31:40 by dverbyts          #+#    #+#             */
+/*   Updated: 2016/12/13 19:31:41 by dverbyts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalnum(int test)
-{
-	int rez;
+#include "ft_printf.h"
 
-	if (test >= 48 && test <= 57)
-		rez = 1;
-	else if (test >= 65 && test <= 90)
-		rez = 1;
-	else if (test >= 97 && test <= 122)
-		rez = 1;
-	else
-		rez = 0;
-	return (rez);
+char	*ft_strjoin(char *t, char *y)
+{
+	char	*r;
+	int		i;
+	int		x;
+
+	if (!t || !y)
+		return (0);
+	if (!(r = (char *)malloc(sizeof(char) * (ft_strlen(t) + ft_strlen(y) + 1))))
+		return (0);
+	i = 0;
+	x = 0;
+	while (t[i])
+		r[x++] = t[i++];
+	i = 0;
+	while (y[i])
+		r[x++] = y[i++];
+	r[x] = '\0';
+	return (r);
 }

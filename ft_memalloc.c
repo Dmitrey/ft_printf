@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memnclr.c                                       :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/24 17:58:58 by dverbyts          #+#    #+#             */
-/*   Updated: 2016/11/24 17:59:00 by dverbyts         ###   ########.fr       */
+/*   Created: 2016/12/06 16:40:14 by dverbyts          #+#    #+#             */
+/*   Updated: 2016/12/06 16:40:15 by dverbyts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	*ft_memnclr(void *s, size_t x)
+void	*ft_memalloc(size_t size)
 {
-	int z;
+	void *memory;
 
-	z = 0;
-	while (x)
-	{
-		((char *)s)[z] = '\0';
-		x--;
-		z++;
-	}
-	return (s);
+	if (!size)
+		return (NULL);
+	memory = (void *)malloc(size);
+	if (!memory)
+		return (NULL);
+	ft_bzero(memory, size);
+	return (memory);
 }

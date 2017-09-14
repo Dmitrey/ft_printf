@@ -18,7 +18,6 @@
 # include <stdarg.h>
 # include <inttypes.h>
 # include <stddef.h>
-# include "libft/libft.h"
 
 typedef	struct			s_arg
 {
@@ -148,5 +147,15 @@ int						ft_printf_itoa_len(t_arg *s, int b);
 char					ft_printf_itoa_hash(int base, t_arg *s);
 void					ft_printf_data_p(t_arg *s);
 int						ft_printf_chek_data(char f);
+void					ft_bzero(void *s, size_t n);
+int						ft_isdigit(int test);
+char					*ft_itoa(int n);
+int						ft_strcmp(char const *s1, char const *s2);
+char					*ft_strdup(const char *s1);
+char					*ft_strjoin(char *t, char *y);
+size_t					ft_strlen(const char *string);
+char					*ft_strnew(size_t size);
+char					*ft_strcpy(char *dest, const char *sors);
+void					*ft_memalloc(size_t size);
 
 #endif

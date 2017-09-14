@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dverbyts <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/02 19:32:09 by dverbyts          #+#    #+#             */
-/*   Updated: 2016/12/02 19:32:11 by dverbyts         ###   ########.fr       */
+/*   Created: 2016/11/21 13:19:30 by dverbyts          #+#    #+#             */
+/*   Updated: 2016/11/21 13:19:35 by dverbyts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+size_t	ft_strlen(const char *string)
 {
-	int start;
+	size_t rez;
 
-	start = 0;
-	while (n--)
-	{
-		((unsigned char *)dst)[start] = ((unsigned char *)src)[start];
-		if (((unsigned char *)src)[start] == (unsigned char)c)
-			return ((unsigned char *)dst + ++start);
-		start++;
-	}
-	return (NULL);
+	rez = 0;
+	while (string[rez] != '\0')
+		rez++;
+	return (rez);
 }
