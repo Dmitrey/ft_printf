@@ -46,7 +46,7 @@ void	ft_printf_data_wchar_read(t_arg *s)
 	{
 		if ((int)s->wchar[s->l3] < 128)
 		{
-			s->tmp2 = ft_strnew(2);
+			s->tmp2 = ft_strnew(1);
 			s->tmp2[0] = (char)s->wchar[s->l3++];
 		}
 		else
@@ -67,7 +67,7 @@ void	ft_printf_data_wchar_read2(t_arg *s)
 	{
 		if ((int)s->wchar[s->l3] < 128)
 		{
-			s->tmp2 = ft_strnew(2);
+			s->tmp2 = ft_strnew(1);
 			s->tmp2[0] = (char)s->wchar[s->l3++];
 		}
 		else

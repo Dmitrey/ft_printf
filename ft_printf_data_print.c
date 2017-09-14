@@ -39,9 +39,8 @@ char	*ft_printf_prs(char *f, t_arg *s)
 {
 	char *r;
 
-	r = ft_strnew(2);
+	r = ft_strnew(1);
 	r[0] = f[s->l2++];
-	r[1] = '\0';
 	if (s->buf == NULL)
 	{
 		if (s->minus == 1 && s->zero == 1)
@@ -92,13 +91,18 @@ void	ft_printf_nonf(char *f, t_arg *s)
 		s->zero == 1 ? ft_printf_nonf2(s, '0') : ft_printf_nonf2(s, ' ');
 	if (s->accuracy == 0)
 		s->accuracy = -1;
-		while (f[s->l2] != '\0' && f[s->l2] != '%')
-		{
-			s->tmp1[0] = f[s->l2++];
-			s->buf = ft_strjoin((char *)s->buf, s->tmp1);
-		}
-		if ((f[s->l2] == '\0' || f[s->l2] == '%') && s->spase == 1)
-			s->spase = 0;
+	while (f[s->l2] != '\0' && f[s->l2] != '%')
+	{
+		s->tmp1[0] = f[s->l2++];
+		s->buf = ft_strjoin((char *)s->buf, s->tmp1);
+	}
+	if ((f[s->l2] == '\0' || f[s->l2] == '%') && s->spase == 1)
+		s->spase = 0;
+	if (s->buf != NULL)
+	{
+		ft_printf_data_ss(0, (char *)s->buf, s);
+		ft_printf_clear_t_arg2(s);
+	}
 }
 
 void	ft_printf_nonf2(t_arg *s, char t)

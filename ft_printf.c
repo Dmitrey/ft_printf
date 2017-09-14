@@ -54,7 +54,7 @@ void	ft_printf_read_format(char *f, va_list args, t_arg *s)
 		else if (f[s->l2] == '%' && s->prs != '%')
 			s->prs = f[s->l2++];
 		else if (s->prs != '%' && s->buf == NULL)
-			ft_printf_data_ss(f[s->l2++], s);
+			ft_printf_data_ss(f[s->l2++], NULL, s);
 		else if (ft_printf_flags(f[s->l2], s) == 1)
 			s->l2++;
 		else if (f[s->l2] == '.' && s->prs == '%')

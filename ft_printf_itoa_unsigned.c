@@ -94,12 +94,7 @@ char	*ft_printf_itoa_unsigned(t_arg *s, int base, int minf)
 	s->l5 = 0;
 	s = ft_printf_flags_unsigned(s);
 	if (s->j6 == 0)
-	{
-		re = ft_strnew(2);
-		re[0] = '0';
-		re[1] = '\0';
-		return (re);
-	}
+		return (ft_strdup("0\0"));
 	s->j2 = ft_printf_itoa_unsignedlen(s, base);
 	if (!(re = (char *)malloc(sizeof(char) * s->j2)))
 		return (0);

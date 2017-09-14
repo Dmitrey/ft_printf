@@ -88,9 +88,24 @@ int		ft_printf_data_type2(char f)
 	return (0);
 }
 
-void	ft_printf_data_ss(char p, t_arg *s)
+void	ft_printf_data_ss(char p, char *y, t_arg *s)
 {
-	write(1, &p, 1);
-	s->re++;
-	return ;
+	int i;
+
+	i = 0;
+	if (p && y == NULL)
+	{
+		write(1, &p, 1);
+		s->re++;
+		return ;
+	}
+	if (y != NULL)
+	{
+		while (y[i])
+		{
+			write(1, &y[i++], 1);
+			s->re++;
+		}
+		return ;
+	}
 }

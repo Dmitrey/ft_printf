@@ -116,10 +116,7 @@ char	*ft_printf_itoa(t_arg *s, int b, int minf)
 		s->l5 = 0;
 		s = ft_printf_flags_signed(s);
 		if (s->j5 == 0)
-		{
-			re = ft_strnew(2);
-			return (re = "0\0");
-		}
+			return (ft_strdup("0\0"));
 		if (s->j5 < 0)
 			minf = 1;
 		s->j2 = ft_printf_itoa_len(s, b);

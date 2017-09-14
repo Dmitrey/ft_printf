@@ -23,7 +23,7 @@ t_arg	*ft_printf_make_mem(void)
 	return (ret);
 }
 
-void	ft_printf_clear_t_arg(t_arg *s)
+void	ft_printf_clear_t_arg2(t_arg *s)
 {
 	s->hh = 0;
 	s->h = 0;
@@ -43,28 +43,27 @@ void	ft_printf_clear_t_arg(t_arg *s)
 	s->zero = 0;
 	s->str = 0;
 	s->buf = 0;
+	s->data = 0;
 	s->l1 = 0;
-	s->l2 = 0;
 	s->l3 = 0;
 	s->l4 = 0;
 	s->l5 = 0;
-	ft_printf_clear_t_arg2(s);
 	return ;
 }
 
-void	ft_printf_clear_t_arg2(t_arg *s)
+void	ft_printf_clear_t_arg(t_arg *s)
 {
-	s->data = 0;
+	s->l2 = 0;
 	s->j1 = 0;
 	s->j2 = 0;
 	s->j3 = 0;
 	s->j4 = 0;
 	s->j5 = 0;
 	s->j6 = 0;
-	s->data = 0;
 	s->wchar = 0;
 	s->tmp1 = 0;
 	s->tmp2 = 0;
+	ft_printf_clear_t_arg2(s);
 	return ;
 }
 
